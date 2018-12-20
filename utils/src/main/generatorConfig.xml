@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- 配置生成器 -->
+<generatorConfiguration>
+
+    <properties resource="jdbc.properties" />
+    <context id="daoContext" defaultModelType="flat" targetRuntime="MyBatis3Simple" >
+
+
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!--abel 大神的生成mapper的插件-->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin" >
+            <property name="mappers" value="com.core.base.BaseMapper"></property>
+        </plugin>
+        <!--生成service的插件-->
+        <plugin type="com.generate.ServiceGeneratePlugin" >
+            <property name="topPackage" value="com.sapling"></property>
+            <property name="targetProject" value="domain/src/main/java"></property>
+        </plugin>
+        <!--生成conttoller的插件-->
+        <plugin type="com.generate.ControllerGeneratePlugin" >
+            <property name="topPackage" value="com.sapling"></property>
+            <property name="targetProject" value="portal/src/main/java"></property>
+        </plugin>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="${jdbc.url}"
+                        userId="${jdbc.username}"
+                        password="${jdbc.password}">
+
+        </jdbcConnection>
+
+        <!--配置table生成pojo 规则-->
+        <javaModelGenerator targetPackage="com.sapling.entity" targetProject="dao/src/main/java">
+            <property name="rootClass" value="com.core.base.BaseEntity"/>
+        </javaModelGenerator>
+
+
+
+        <sqlMapGenerator targetPackage="mapper" targetProject="dao/src/main/resources">
+        </sqlMapGenerator>
+
+        <javaClientGenerator targetPackage="com.sapling.mapper" type="XMLMAPPER" targetProject="dao/src/main/java">
+        </javaClientGenerator>
+
+        <table tableName="dim_%"></table>
+        <!--<table tableName="dim_department"></table>-->
+        <!--<table tableName="dim_commoncode"></table>-->
+    </context>
+
+</generatorConfiguration>
